@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from "../components/Header.astro";
+---
+
+<Layout>
+<Header></Header>
+<section class="bg-[#1e1e1e] h-screen items-center grid justify-center">
+    <h1 class="text-[#f0f1f1] font-bold text-5xl">Reportes</h1>
+    <label class="text-[#f0f1f1]">Visualisa y analiza los datos de tus cultivos</label>
+    <div class="flex flex-row">
+        <div class="bg-[#272726] p-4 m-4">
+            <select id="opciones" class="bg-[#272726] text-[#f0f1f1]"  name="Revision">
+                <option value="1">Ultimo mes</option>
+                <option value="2">Ultima semana</option>
+                <option value="3">Ultimo dia</option>
+            </select>
+        </div>
+        <div class="bg-[#272726] p-4 m-4 ">
+            <p class="text-[#f0f1f1] flex flex-row"> <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin p-0.5"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg> Zona:             
+                <select id="opciones" class="bg-[#272726]" name="">
+                <option value="1">Todas</option>
+                <option value="1">Zona #1</option>
+                <option value="2">Zona #2</option>
+                <option value="3">Zona #3</option>
+            </select></p>
+
+        </div>
+        <div class="bg-[#272726] p-4 m-4">
+            <p class="text-[#f0f1f1] flex flex-row"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal p-0.5"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 6l8 0" /><path d="M16 6l4 0" /><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 12l2 0" /><path d="M10 12l10 0" /><path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 18l11 0" /><path d="M19 18l1 0" /></svg> Zona:    
+                <select id="opciones" class="bg-[#272726]" name="">
+                <option value="1">Todas</option>
+                <option value="1">Zona #1</option>
+                <option value="2">Zona #2</option>
+                <option value="3">Zona #3</option>
+            </select></p>
+         
+        </div>
+
+    </div>
+    <div class="grid grid-cols-3">
+
+        <div class="bg-[#272726] text-[#f0f1f1] m-4 p-4">
+            <h4 class="font-bold mb-1.5">Total Cultivos Infectados</h4>
+            <label id="fecha-cultivo-infectado mb-1.5">Ultimo mes </label>
+            <p class="text-2xl mb-1.5 font-bold">245</p>
+            <p class="mb-1.5 text-green-500">5% menos que el mes anterior</p>
+        </div>
+        <div class="bg-[#272726] text-[#f0f1f1] m-4 p-4">
+            <h4 class="font-bold mb-1.5">Tasa de Detección</h4>
+            <label class="mb-1.5">Precision del sistema </label>
+            <p id="precision" class="text-2xl mb-1.5 font-bold">92%</p>
+            <p class="mb-1.5 text-green-500">5% mejor que el mes anterior</p>
+        </div>
+        <div class="bg-[#272726] text-[#f0f1f1] m-4 p-4">
+            <h4 class="font-bold mb-1.5">Tiempo de Respuesta</h4>
+            <label class="mb-1.5">Precision del sistema </label>
+            <p id="tiempo_respuesta" class="text-2xl mb-1.5 font-bold">1.2h</p>
+            <p class="mb-1.5 text-red-500">0.3h más que el mes anterior</p>
+        </div>
+        <div class="m-4 p-4 bg-[#272726] col-start-1 col-end-3">
+            <h3 class="text-[#f0f1f1] py-2 text-2xl font-bold">Reportes recientes</h3>
+            <table class="table-auto text-[#f0f1f1] border-gray-400">
+                <thead>
+                    <tr>
+                      <th class="border-y px-4 py-2">ID</th>
+                      <th class="border-y px-4 py-2">Zona</th>
+                      <th class="border-y px-4 py-2">Tipo</th>
+                      <th class="border-y px-4 py-2">Fecha</th>
+                      <th class="border-y px-4 py-2">Estado</th>
+                      <th class="border-y px-4 py-2">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="px-4 py-2">#8294</td>
+                      <td class="px-4 py-2">Zona #2</td>
+                      <td class="px-4 py-2">Alerta temprana</td>
+                      <td class="px-4 py-2">Hoy, 10:45 AM</td>
+                      <td class="px-4 py-2 my-4"><p class="flex justify-center items-center rounded-4xl bg-[#c5a121]">En proceso</p></td>
+                      <td class="px-4 py-2 flex justify-center items-center"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg></td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2 my-4">#84</td>
+                        <td class="px-4 py-2">Zona #1</td>
+                        <td class="px-4 py-2 m-4">Analisis completo</td>
+                        <td class="px-4 py-2">Hoy, 10:45 AM</td>
+                        <td class="px-4 py-2 m-4 text-center"><p class="flex justify-center items-center rounded-2xl bg-[#09c730]">Completado</p></td>
+                        <td class="px-4 py-2 flex justify-center items-center"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg></td>
+                    </tr>
+                      <tr >
+                        <td class="px-4 py-2">#29</td>
+                        <td class="px-4 py-2">Zona #3</td>
+                        <td class="px-4 py-2">Infeccion critica</td>
+                        <td class="px-4 py-2">Hoy, 10:45 AM</td>
+                        <td class="px-4 py-2 my-4  text-center"><p class=" flex justify-center items-center rounded-4xl bg-[#d24039]">Urgente</p></td>
+                        <td class="px-4 py-2 flex justify-center items-center"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye "><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg></td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+        <div class="m-4 p-4 bg-[#272726] text-[#f0f1f1]">
+            <h3 class="text-[#f0f1f1] text-2xl font-bold">Zona más afectada</h3>
+            <p>Zona #13</p>
+
+            <p>Zona #69</p>
+
+            <p>Zona #27</p>
+        </div>
+    </section>
+</div>
+</section>
+</Layout>
