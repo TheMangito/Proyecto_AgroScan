@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from "../components/Header.astro";
+import MainLayout from '../layouts/MainLayout.astro';
+import "../styles/global.css";
 ---
 
-<Layout>
-<Header></Header>
+<MainLayout>
+
 <section class="bg-[#1e1e1e] h-screen items-center grid justify-center">
     <h1 class="text-[#f0f1f1] font-bold text-5xl">Reportes</h1>
     <label class="text-[#f0f1f1]">Visualisa y analiza los datos de tus cultivos</label>
@@ -101,13 +103,30 @@ import Header from "../components/Header.astro";
         </div>
         <div class="m-4 p-4 bg-[#272726] text-[#f0f1f1]">
             <h3 class="text-[#f0f1f1] text-2xl font-bold">Zona más afectada</h3>
-            <p>Zona #13</p>
+            <div class="flex flex-row justify-between">
+                <p>Zona #13</p>
+                <p class="ml-10">78 casos</p>
+            </div>
+            <div class="w-full h-3 bg-[#3c3d3d] rounded-full mt-3">
+                <div class="h-full bg-[#1f1f1e] rounded-full" style="width: 78%"></div>
+            </div>
 
-            <p>Zona #69</p>
-
-            <p>Zona #27</p>
+            <div class="flex flex-row justify-between">
+                <p>Zona #69</p>
+                <p class="ml-10">65 casos</p>
+            </div>
+            <div class="w-full h-3 bg-[#3c3d3d] rounded-full mt-3">
+                <div class="h-full bg-[#1f1f1e] rounded-full" style="width: 65%"></div>
+            </div>
+            <div class="flex flex-row justify-between">
+                <p>Zona #27</p>
+                <p class="ml-10 flex">24 casos</p>
+            </div>
+            <div class="w-full h-3 bg-[#3c3d3d] rounded-full mt-3">
+                <div class="h-full bg-[#1f1f1e] rounded-full" style="width: 24%"></div>
+            </div>
         </div>
     </section>
 </div>
 </section>
-</Layout>
+</MainLayout>
