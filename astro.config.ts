@@ -7,6 +7,8 @@ import vercel from '@astrojs/vercel';
 
 import db from '@astrojs/db';
 
+import clerk from "@clerk/astro";
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,7 +18,10 @@ export default defineConfig({
     
   },
   adapter: vercel(),
+  output: "server",
   integrations: [db(),
-  
+    clerk()
+    
   ]
+
 });                                           
