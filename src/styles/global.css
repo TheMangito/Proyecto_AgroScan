@@ -14,3 +14,12 @@
       font-family: 'Roboto', sans-serif;
     }
   }
+  .cl-socialButtonsBlockButton{
+    color:white
+  }
+  .cl-formFieldAction {
+    color: rgba(255, 255, 255, 0.735)
+  }
+  .cl-footerActionLink {
+    color: rgba(255, 255, 255, 0.735)
+  }

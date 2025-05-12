@@ -9,6 +9,8 @@ import db from '@astrojs/db';
 
 import clerk from "@clerk/astro";
 
+import { dark } from '@clerk/themes'
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,8 +22,15 @@ export default defineConfig({
   adapter: vercel(),
   output: "server",
   integrations: [db(),
-    clerk()
-    
+    clerk({
+      appearance: {
+        
+        baseTheme: [dark],
+        variables: {
+          colorBackground: 'white'
+        }
+      },
+    }),
   ]
 
 });                                           
