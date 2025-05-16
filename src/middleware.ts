@@ -1,18 +1,13 @@
-// src/middleware.ts
 import { clerkMiddleware, createRouteMatcher } from "@clerk/astro/server";
 
-const isProtected = createRouteMatcher(["/dashboard(.*)"]);
+const isProtected = createRouteMatcher(["/dashboard(.*)"])
 
-export const onRequest = clerkMiddleware(
-  (auth, context) => {
-    const { userId, redirectToSignIn } = auth();
+export const onRequest = clerkMiddleware((auth, context) => {
 
-    if (!userId && isProtected(context.request)) {
-      return redirectToSignIn();
+    const { userId, redirectToSignIn} = auth()
+
+    if (isProtected(context.request) && !userId ){
+        return redirectToSignIn()
     }
 
-  },
-  {
-    // Aquí van opciones válidas
-  }
-);
+});

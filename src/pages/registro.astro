@@ -1,5 +1,8 @@
 ---
+import { theme } from "tailwind.config";
 import Layout from "../layouts/Layout.astro";
+import { dark } from '@clerk/themes'
+import { SignUp } from "@clerk/astro/components";
 ---
 
 <Layout title="Registro | AgroScan AI">
@@ -33,99 +36,12 @@ import Layout from "../layouts/Layout.astro";
         <h2 class="text-xl font-semibold text-white">AgroScan AI</h2>
       </div>
       
-      <h1 class="font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center md:text-left">CREAR UNA CUENTA</h1>
-      
-      <form class="flex flex-col gap-10 md:gap-6 w-full max-w-md mx-auto md:mx-0 bg-[#1E1E1E]">
-        <!--Nombre(s) -->
-        <div class="flex flex-col gap-2">
-            <label for="nombre" class="text-sm pl-2">Nombre(s)</label>
-            <input 
-              type="text" 
-              id="nombre"
-              placeholder="Ingresa tu(s) nombre(s)" 
-              class="px-4 py-3 text-sm rounded-2xl w-full bg-[#262626] border-none focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              name="nombre"
-              required
-            />
-          </div>
-          
-          <!-- Apellido(s) -->
-          <div class="flex flex-col gap-2">
-            <label for="apellido" class="text-sm pl-2">Apellido(s)</label>
-            <input 
-              type="text" 
-              id="apellido"
-              placeholder="Ingresa tu(s) apellido(s)" 
-              class="px-4 py-3 text-sm rounded-2xl w-full bg-[#262626] border-none focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              name="apellido"
-              required
-            />
-          </div>
-        
-        <!-- Contraseña -->
-        <div class="flex flex-col gap-2">
-          <label for="password" class="text-sm pl-2">Contraseña</label>
-          <input 
-            type="password" 
-            id="password"
-            placeholder="Ingresa una contraseña" 
-            class="px-4 py-3 text-sm rounded-2xl w-full bg-[#262626] border-none focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            name="password"
-            required
-          />
-          <p class="text-xs text-gray-400 pl-2 mt-1">Mínimo 8 caracteres, incluyendo una letra mayúscula y un número</p>
-        </div>
-        
-        <!-- Correo Electrónico -->
-        <div class="flex flex-col gap-2">
-          <label for="email" class="text-sm pl-2">Correo Electrónico</label>
-          <input 
-            type="email" 
-            id="email"
-            placeholder="Ingresa un correo electrónico" 
-            class="px-4 py-3 text-sm rounded-2xl w-full bg-[#262626] border-none focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            name="email"
-            required
-          />
-        </div>
-        
-        <!-- Términos y condiciones -->
-        <div class="flex items-start gap-2 mt-1">
-          <input 
-            type="checkbox" 
-            id="terms" 
-            class="mt-1 rounded bg-[#262626] border-none text-blue-600 focus:ring-blue-500 focus:ring-offset-0"
-            required
-          />
-          <label for="terms" class="text-xs sm:text-sm text-gray-300">
-            Acepto los <a href="#" class="text-blue-400 hover:underline">términos y condiciones</a> y la <a href="#" class="text-blue-400 hover:underline">política de privacidad</a>
-          </label>
-        </div>
-        
-        <!-- Botoness -->
-        <div class="flex flex-col xs:flex-row gap-3 sm:gap-4 mt-2 sm:mt-4">
-          <button 
-            type="submit" 
-            class="bg-blue-600 hover:bg-blue-700 text-white text-nowrap font-medium py-3 px-4 rounded-2xl transition-colors flex-1 text-sm sm:text-base"
-          >
-            CREAR CUENTA
-          </button>
-          
-          <a 
-            href="/login" 
-            class="text-center py-3 px-4 rounded-2xl border border-gray-600 hover:bg-gray-800 transition-colors flex-1 text-sm sm:text-base"
-          >
-            Cancelar
-          </a>
-        </div>
-        
-        <!-- Ya tienes cuenta -->
-        <div class="text-center mt-2 bg-[#1E1E1E]">
-          <p class="text-xs sm:text-sm text-gray-400">
-            ¿Ya tienes una cuenta? <a href="/login" class="text-blue-400 hover:underline">Iniciar sesión</a>
-          </p>
-        </div>
-      </form>
+      <SignUp
+        appearance={{
+          baseTheme: dark,
+      }}>
+
+      </SignUp>
     </div>
   </section>
 </Layout>

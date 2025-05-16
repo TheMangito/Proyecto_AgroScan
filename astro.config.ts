@@ -11,6 +11,7 @@ import clerk from "@clerk/astro";
 
 import { dark } from '@clerk/themes'
 
+import { esMX } from '@clerk/localizations'
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,8 +24,8 @@ export default defineConfig({
   output: "server",
   integrations: [db(),
     clerk({
+      localization: esMX,
       appearance: {
-        
         baseTheme: [dark],
         variables: {
           colorBackground: 'white'
