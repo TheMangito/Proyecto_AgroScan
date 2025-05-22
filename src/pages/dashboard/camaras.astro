@@ -10,7 +10,7 @@ import "@/styles/global.css";
         <h1 class="text-[#f0f1f1] font-bold md:text-5xl text-3xl">Cámaras</h1>
         <div class="bg-[#262626] rounded-xl p-3 shadow flex flex-row gap-2 items-end justify-end md:gap-1 md:p-6">
             <h2 class="text-lg font-semibold min-w-[30%] md:text-2xl">Temporizador de Captura</h2>
-            <p class="text-xl font-mono font-bold min-w-[30%] md:text-3xl">00:32:10</p>
+            <p id="temporizador" class="text-xl font-mono font-bold min-w-[30%] md:text-3xl">00:32:10</p>
             <p class="text-xs text-gray-300 min-w-[30%] md:text-sm">Restantes</p>
         </div>
         <label class="text-[#f0f1f1] md:text-base text-sm">Monitorea las camaras de las zonas de cultivo</label>
@@ -108,3 +108,5 @@ import "@/styles/global.css";
       })();
     </script>
 </section>
+
+<script type="module" src="/src/scripts/timer.js"></script>
