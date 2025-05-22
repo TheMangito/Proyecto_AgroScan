@@ -52,6 +52,9 @@ import "@/styles/global.css";
                 playsinline
                 muted
             ></video>
+            <button id="screenshot-vid-recording" class="bg-[#272726] text-[#f0f1f1] rounded-lg p-2 mt-2 w-full hover:bg-[#3a3a3a]">
+                Capturar
+            </button>
         </div>
         <div class="bg-[#262626] rounded-xl p-6 shadow">
             <div class="flex flex-row items-center justify-between">
@@ -93,18 +96,65 @@ import "@/styles/global.css";
         </div>
     </div>
     <script type="module">
-      (async () => {
-        const video = document.getElementById('camera1');
-        if (!navigator.mediaDevices?.getUserMedia) {
-          console.warn('getUserMedia no soportado en este navegador');
-          return;
+        (async () => {
+            const video = document.getElementById('camera1');
+            if (!navigator.mediaDevices?.getUserMedia) {
+                console.warn('getUserMedia no soportado en este navegador');
+                return;
+            }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error al acceder a la cámara:', err);
+            }
+        })();
+        var screenshotButton = document.getElementById("screenshot-vid-recording");
+        screenshotButton.addEventListener("click", onCapture);
+
+        var canvas = document.createElement("canvas")
+        async function onCapture() {
+            const video = document.getElementById("camera1");
+            // 2) Verificar que el video esté listo
+            if (video.readyState < 2) {
+                statusEl.style.color = "red";
+                statusEl.textContent = "El video aún no está listo.";
+                return;
+            }
+
+            // 3) Dibujar el frame actual en el canvas
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // 4) Convertir el canvas a Base64 (PNG)
+            const dataURL = canvas.toDataURL("image/png");
+            const base64Data = dataURL.split(",")[1]; // quitamos “data:image/png;base64,”
+
+            // 5) Enviar al endpoint /api/save-image
+            statusEl.style.color = "white";
+            statusEl.textContent = "Enviando imagen a SQLite…";
+
+            try {
+                const respuesta = await fetch("/api/save-image", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ base64: base64Data }),
+              });
+
+              const json = await respuesta.json();
+              if (!respuesta.ok || !json.success) {
+                throw new Error(json.message || "Error desconocido");
+            }
+
+                statusEl.style.color = "limegreen";
+                statusEl.textContent = `Imagen guardada con ID: ${json.id}`;
+            } catch (err) {
+                console.error("Error enviando al servidor:", err);
+                statusEl.style.color = "red";
+                statusEl.textContent = `Error: ${err.message}`;
+            };
         }
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          video.srcObject = stream;
-        } catch (err) {
-          console.error('Error al acceder a la cámara:', err);
-        }
-      })();
     </script>
 </section>
