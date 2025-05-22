@@ -11,6 +11,16 @@ const Usuarios = defineTable({
   },
 })
 
+const Capturas = defineTable({
+  columns: {
+    id_captura : column.number( {primaryKey: true} ),
+    id_camara : column.number(),
+    fecha_hora : column.date(),
+    imagen : column.number(),
+    procesada : column.boolean(),
+  },
+})
+
 export default defineDb({
-  tables: { Usuarios },
+  tables: { Usuarios, Capturas},
 })
