@@ -1,48 +1,41 @@
-// src/scripts/timer.js
+async function startSyncedCountdown(display) {
+  // ① Pide la hora exacta del servidor
+  const t0Client = Date.now();
+  const { now: t0Server } = await fetch('/api/servertime')
+                                    .then(r => r.json());
+  const drift = t0Client - t0Server;   // ms que adelanta el reloj local
 
-function startCountdown(duration, display) {
-  const key = "inicioTemporizador";
-  let startTime = localStorage.getItem(key);
+  // ② Calcula el próximo “top-of-hour” (minuto 0)
+  const nextTick = Math.ceil(t0Server / 3.6e6) * 3.6e6; // 3.6e6 = 60 min
 
-  const originalDuration = duration;
+  function update() {
+    // hora real = reloj local - drift
+    const diff   = nextTick - (Date.now() - drift);  // ms hasta el siguiente tick
+    const secs   = Math.max(0, Math.floor(diff / 1000));
 
-  if (!startTime) {
-    // Si no hay hora de inicio, la guardamos ahora
-    startTime = Date.now();
-    localStorage.setItem(key, startTime);
-  } else {
-    startTime = parseInt(startTime);
-  }
+    const hh = String(Math.floor(secs / 3600)).padStart(2, '0');
+    const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+    const ss = String(secs % 60).padStart(2, '0');
+    display.textContent = `${hh}:${mm}:${ss}`;
 
-  function updateTimer() {
-    const now = Date.now();
-    const elapsedSeconds = Math.floor((now - startTime) / 1000);
-    let remaining = originalDuration - elapsedSeconds;
-
-    if (remaining <= 0) {
-      // Reiniciar: guardamos nueva hora de inicio
-      startTime = Date.now();
-      localStorage.setItem(key, startTime);
-      remaining = originalDuration;
-
-      // Llamar otro script aquí
-      console.log("Tiempo agotado. Ejecutando script...");
-
+    if (secs === 0) {
+      // ③ Llegó a cero → tu acción y reinicio
+      doSomething();                   // <-- tu función
+      while (nextTick <= (Date.now() - drift)) nextTick += 3.6e6;
     }
-
-    const hours = String(Math.floor(remaining / 3600)).padStart(2, '0');
-    const minutes = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
-    const seconds = String(remaining % 60).padStart(2, '0');
-
-    display.textContent = `${hours}:${minutes}:${seconds}`;
   }
 
-  updateTimer(); // Ejecuta inmediatamente
-  setInterval(updateTimer, 1000);
+  update();
+  setInterval(update, 1000);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const display = document.querySelector("#temporizador");
-  const duration = 32 * 60 + 10; // 32 minutos y 10 segundos
-  if (display) startCountdown(duration, display);
+function doSomething() {
+  console.log('¡Hora completada! Ejecutando acción…');
+  // Por ejemplo:
+  // fetch('/api/genera-reporte', { method: 'POST' });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const display = document.querySelector('#temporizador');
+  if (display) startSyncedCountdown(display);
 });
