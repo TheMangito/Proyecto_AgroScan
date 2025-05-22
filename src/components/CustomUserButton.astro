@@ -1,0 +1,77 @@
+---
+const {user} = Astro.props
+const {imageUrl} = Astro.props
+
+---
+
+<div class="relative inline-block text-left">
+  <button
+      id="menu-toggle2"
+      class="flex items-center gap-3 cursor-pointer"
+      aria-haspopup="true"
+      aria-expanded="false"
+  >
+      <img src={user?.imageUrl} class="w-6 h-6 rounded-full">
+      <h1>{user.firstName}</h1>
+  </button>
+
+
+  <div
+      id="menu-items2"
+      data-user-id ={user?.id}
+      class="hidden absolute right-0 bottom-full mb-2
+         w-48 h-12 rounded-md shadow-lg
+         bg-white dark:bg-[#171717]
+         ring-1 ring-black/5 z-20
+         origin-bottom-right translate-x-[100px]"
+    >
+      <ul class="py-1">
+      
+      <li>
+          <button
+              id="btn-sign-out2"
+              class="group flex items-center gap-2 w-full text-xs text-left px-4 py-2
+                  text-gray-700 hover:bg-gray-100
+                  dark:text-white dark:hover:bg-gray-500 cursor-pointer"
+          >
+              <!-- SVG de usuario con paths -->
+              <svg xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 stroke-current transition-colors
+                          group-hover:text-white "
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  viewBox="0 0 24 24">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <circle cx="12" cy="7" r="4" />
+              <path d="M5.5 21h13a2 2 0 0 0 2 -2 6 6 0 0 0 -6 -6h-5a6 6 0 0 0 -6 6a2 2 0 0 0 2 2" />
+              </svg>
+              Cerrar Sesion
+          </button>
+      </li>
+
+      </ul>
+  </div>
+  <script lang="js">
+
+      // 1) Mostrar/ocultar menú
+      const toggle2 = document.getElementById('menu-toggle2');
+
+      const items2  = document.getElementById('menu-items2');
+      const userId = items2.dataset.userId;
+      
+      toggle2.addEventListener('click', (e) => {
+          e.stopPropagation();
+          items2.classList.toggle('hidden');
+      });
+      document.addEventListener('click', () => items2.classList.add('hidden'));
+
+      // 2) Handler “Cerrar sesión”
+      document.getElementById('btn-sign-out2')
+          .addEventListener('click', () => {
+          window.Clerk?.signOut();
+          });
+
+      // 3) Handler “Mis pedidos”
+     
+  </script>
+</div>

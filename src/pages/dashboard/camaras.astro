@@ -10,7 +10,7 @@ import "@/styles/global.css";
         <h1 class="text-[#f0f1f1] font-bold md:text-5xl text-3xl">Cámaras</h1>
         <div class="bg-[#262626] rounded-xl p-3 shadow flex flex-row gap-2 items-end justify-end md:gap-1 md:p-6">
             <h2 class="text-lg font-semibold min-w-[30%] md:text-2xl">Temporizador de Captura</h2>
-            <p class="text-xl font-mono font-bold min-w-[30%] md:text-3xl">00:32:10</p>
+            <p id="temporizador" class="text-xl font-mono font-bold min-w-[30%] md:text-3xl">00:32:10</p>
             <p class="text-xs text-gray-300 min-w-[30%] md:text-sm">Restantes</p>
         </div>
         <label class="text-[#f0f1f1] md:text-base text-sm">Monitorea las camaras de las zonas de cultivo</label>
@@ -157,4 +157,49 @@ import "@/styles/global.css";
             };
         }
     </script>
+    <script lang="js">
+        async function startSyncedCountdown(display) {
+        // ① Pide la hora exacta del servidor
+        const t0Client = Date.now();
+        const { now: t0Server } = await fetch('/api/servertime')
+                                            .then(r => r.json());
+        const drift = t0Client - t0Server;   // ms que adelanta el reloj local
+
+        // ② Calcula el próximo “top-of-hour” (minuto 0)
+        const nextTick = Math.ceil(t0Server / 3.6e6) * 3.6e6; // 3.6e6 = 60 min
+
+        function update() {
+            // hora real = reloj local - drift
+            const diff   = nextTick - (Date.now() - drift);  // ms hasta el siguiente tick
+            const secs   = Math.max(0, Math.floor(diff / 1000));
+
+            const hh = String(Math.floor(secs / 3600)).padStart(2, '0');
+            const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+            const ss = String(secs % 60).padStart(2, '0');
+            display.textContent = `${hh}:${mm}:${ss}`;
+
+            if (secs === 0) {
+            // ③ Llegó a cero → tu acción y reinicio
+            doSomething();                   // <-- tu función
+            while (nextTick <= (Date.now() - drift)) nextTick += 3.6e6;
+            }
+        }
+
+        update();
+        setInterval(update, 1000);
+        }
+
+        function doSomething() {
+        console.log('¡Hora completada! Ejecutando acción…');
+        // Por ejemplo:
+        // fetch('/api/genera-reporte', { method: 'POST' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const display = document.querySelector('#temporizador');
+        if (display) startSyncedCountdown(display);
+        });
+
+    </script>
 </section>
+

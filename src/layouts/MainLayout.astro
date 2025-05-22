@@ -1,5 +1,8 @@
 ---
 const {title} = Astro.props 
+import CustomUserButton from "@/components/CustomUserButton.astro"
+
+const user = await Astro.locals.currentUser()
 ---
 
 <html lang="es">
@@ -23,7 +26,7 @@ const {title} = Astro.props
             <nav>
               <h2 class="text-gray-400 text-sm uppercase mb-2">Menu Principal</h2>
               <ul class="space-y-2 mb-4">
-                <li><a href="/Inicio" class="flex items-center gap-2 px-2 py-2 rounded bg-[#2f2f2f]"><span><svg width="30" height="28" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <li><a href="/dashboard/Inicio" class="flex items-center gap-2 px-2 py-2 rounded bg-[#2f2f2f]"><span><svg width="30" height="28" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_5_162)">
                     <path d="M6.25 14H3.75L15 3.5L26.25 14H23.75" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6.25 14V22.1667C6.25 22.7855 6.51339 23.379 6.98223 23.8166C7.45107 24.2542 8.08696 24.5 8.75 24.5H21.25C21.913 24.5 22.5489 24.2542 23.0178 23.8166C23.4866 23.379 23.75 22.7855 23.75 22.1667V14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -117,19 +120,7 @@ const {title} = Astro.props
           
           <div>
             <h2 class="text-gray-400 text-sm uppercase mb-2">Cuenta</h2>
-            <a href="#" class="flex items-center gap-2 px-2 py-2 rounded hover:bg-gray-700"><span><svg width="38" height="36" viewBox="0 0 38 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="19" cy="18" rx="19" ry="18" fill="#1E1E1E"/>
-                <g clip-path="url(#clip0_5_232)">
-                <path d="M15 12C15 13.0609 15.4214 14.0783 16.1716 14.8284C16.9217 15.5786 17.9391 16 19 16C20.0609 16 21.0783 15.5786 21.8284 14.8284C22.5786 14.0783 23 13.0609 23 12C23 10.9391 22.5786 9.92172 21.8284 9.17157C21.0783 8.42143 20.0609 8 19 8C17.9391 8 16.9217 8.42143 16.1716 9.17157C15.4214 9.92172 15 10.9391 15 12Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M13 26V24C13 22.9391 13.4214 21.9217 14.1716 21.1716C14.9217 20.4214 15.9391 20 17 20H21C22.0609 20 23.0783 20.4214 23.8284 21.1716C24.5786 21.9217 25 22.9391 25 24V26" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
-                <clipPath id="clip0_5_232">
-                <rect width="24" height="24" fill="white" transform="translate(7 5)"/>
-                </clipPath>
-                </defs>
-                </svg>
-                </span> Usuario</a>
+            <CustomUserButton user={user}/>
         </div>
           
     </aside>
