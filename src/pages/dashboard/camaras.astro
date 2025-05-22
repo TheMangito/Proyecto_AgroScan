@@ -22,7 +22,13 @@ import "@/styles/global.css";
                 <p class="font-bold text-base md:text-lg">Camara #1</p>
                 <p class="md:text-base text-sm">Infección crítica</p>
             </div><br>
-            <img src="/images/image 3.png" class="w-full h-auto rounded-lg mt-2 min-h-[50%]" alt="Camara #1" />
+            <video
+                id="camera1"
+                class="w-full h-auto rounded-lg mt-2 min-h-[50%]"
+                autoplay
+                playsinline
+                muted
+            ></video>
         </div>
         <div class="bg-[#262626] rounded-xl p-6 shadow">
             <div class="flex flex-row items-center justify-between">
@@ -63,4 +69,19 @@ import "@/styles/global.css";
             <img src="/images/image 3.png" class="w-full h-auto rounded-lg mt-2 min-h-[50%]" alt="Camara #1" />
         </div>
     </div>
+    <script type="module">
+      (async () => {
+        const video = document.getElementById('camera1');
+        if (!navigator.mediaDevices?.getUserMedia) {
+          console.warn('getUserMedia no soportado en este navegador');
+          return;
+        }
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = stream;
+        } catch (err) {
+          console.error('Error al acceder a la cámara:', err);
+        }
+      })();
+    </script>
 </section>
