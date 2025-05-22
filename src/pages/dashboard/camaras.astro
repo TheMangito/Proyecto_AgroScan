@@ -114,11 +114,24 @@ import "@/styles/global.css";
 
         var canvas = document.createElement("canvas")
         async function onCapture() {
-            const video = document.getElementById("camera1");
+            var video = document.querySelector("video");
+            console.log(new Date(), "capture", video.videoWidth, video.videoHeight)
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext("2d").drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+            canvas.toBlob(async (blob) => {
+                {
+                    const url = URL.createObjectURL(blob) // Create an object URL from blob
+                    console.log(url)
+                      
+                };
+            });
+        /*    const video = document.getElementById("camera1");
             // 2) Verificar que el video esté listo
             if (video.readyState < 2) {
-                statusEl.style.color = "red";
-                statusEl.textContent = "El video aún no está listo.";
+                //statusEl.style.color = "red";
+                //statusEl.textContent = "El video aún no está listo.";
                 return;
             }
 
@@ -133,8 +146,8 @@ import "@/styles/global.css";
             const base64Data = dataURL.split(",")[1]; // quitamos “data:image/png;base64,”
 
             // 5) Enviar al endpoint /api/save-image
-            statusEl.style.color = "white";
-            statusEl.textContent = "Enviando imagen a SQLite…";
+            //statusEl.style.color = "white";
+            //statusEl.textContent = "Enviando imagen a SQLite…";
 
             try {
                 const respuesta = await fetch("/api/save-image", {
@@ -147,14 +160,14 @@ import "@/styles/global.css";
               if (!respuesta.ok || !json.success) {
                 throw new Error(json.message || "Error desconocido");
             }
-
-                statusEl.style.color = "limegreen";
-                statusEl.textContent = `Imagen guardada con ID: ${json.id}`;
+                console.log("Imagen guardada con ID:", json.id);
+                //statusEl.style.color = "limegreen";
+                //statusEl.textContent = `Imagen guardada con ID: ${json.id}`;
             } catch (err) {
-                console.error("Error enviando al servidor:", err);
-                statusEl.style.color = "red";
-                statusEl.textContent = `Error: ${err.message}`;
-            };
+                //console.error("Error enviando al servidor:", err);
+                //statusEl.style.color = "red";
+                //statusEl.textContent = `Error: ${err.message}`;
+            };*/
         }
     </script>
     <script lang="js">
