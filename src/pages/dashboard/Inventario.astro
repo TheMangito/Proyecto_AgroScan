@@ -1,0 +1,105 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import "@/styles/global.css";
+---
+
+<MainLayout>
+    <section class="p-6 space-y-6">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold text-white">
+                Inventario de Insumos Agrícolas
+            </h1>
+            <p class="text-gray-400 mt-2">Filtra por tipo de insumo</p>
+        </div>
+
+        <div class="max-w-sm mx-auto">
+            <label class="block text-white mb-1" for="filtro"
+                >Filtrar por tipo:</label
+            >
+            <select
+                id="filtro-select"
+                class="w-full bg-[#272726] text-white border border-gray-600 rounded-md px-3 py-2"
+            >
+                <option value="todos">Todos</option>
+                <option value="pesticida">Pesticidas</option>
+                <option value="fertilizante">Fertilizantes</option>
+                <option value="herramienta">Herramientas</option>
+            </select>
+        </div>
+
+        <div
+            class="overflow-x-auto mt-6 rounded-xl border border-gray-700 bg-[#1f1f1f] shadow"
+        >
+            <table class="w-full table-auto text-left text-white">
+                <thead class="text-sm border-b border-gray-600">
+                    <tr class="text-gray-300">
+                        <th class="px-4 py-3">Nombre</th>
+                        <th class="px-4 py-3">Tipo</th>
+                        <th class="px-4 py-3">Cantidad</th>
+                        <th class="px-4 py-3">Ubicación</th>
+                    </tr>
+                </thead>
+                <tbody id="inventario-body" class="text-sm">
+                    <tr
+                        data-tipo="pesticida"
+                        class="border-b border-gray-700 hover:bg-gray-800 transition"
+                    >
+                        <td class="px-4 py-3">Piretroide 350</td>
+                        <td class="px-4 py-3">
+                            <span
+                                class="bg-yellow-600 text-black font-semibold px-2 py-1 rounded-full text-xs"
+                                >Pesticida</span
+                            >
+                        </td>
+                        <td class="px-4 py-3">15 L</td>
+                        <td class="px-4 py-3">Almacén Central</td>
+                    </tr>
+                    <tr
+                        data-tipo="fertilizante"
+                        class="border-b border-gray-700 hover:bg-gray-800 transition"
+                    >
+                        <td class="px-4 py-3">Nitrógeno Plus</td>
+                        <td class="px-4 py-3">
+                            <span
+                                class="bg-green-600 text-white font-semibold px-2 py-1 rounded-full text-xs"
+                                >Fertilizante</span
+                            >
+                        </td>
+                        <td class="px-4 py-3">10 Sacos</td>
+                        <td class="px-4 py-3">Zona 2</td>
+                    </tr>
+                    <tr
+                        data-tipo="herramienta"
+                        class="border-b border-gray-700 hover:bg-gray-800 transition"
+                    >
+                        <td class="px-4 py-3">Bomba de Mochila</td>
+                        <td class="px-4 py-3">
+                            <span
+                                class="bg-blue-600 text-white font-semibold px-2 py-1 rounded-full text-xs"
+                                >Herramienta</span
+                            >
+                        </td>
+                        <td class="px-4 py-3">4 unidades</td>
+                        <td class="px-4 py-3">Taller</td>
+                    </tr>
+                    <tr
+                        data-tipo="pesticida"
+                        class="border-b border-gray-700 hover:bg-gray-800 transition"
+                    >
+                        <td class="px-4 py-3">Fungicida Pro-X</td>
+                        <td class="px-4 py-3">
+                            <span
+                                class="bg-yellow-600 text-black font-semibold px-2 py-1 rounded-full text-xs"
+                                >Pesticida</span
+                            >
+                        </td>
+                        <td class="px-4 py-3">8 L</td>
+                        <td class="px-4 py-3">Zona 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script type="module" src="/src/scripts/inventario.js"></script>
+</MainLayout>

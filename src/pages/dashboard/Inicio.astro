@@ -1,141 +1,200 @@
 ---
-import MainLayout from '@/layouts/MainLayout.astro';
+import MainLayout from "@/layouts/MainLayout.astro";
 import "@/styles/global.css";
 
 const user = await Astro.locals.currentUser();
-const username = user?.firstName
+const username = user?.firstName;
 ---
 
 <MainLayout>
-	<h1 class="text-3xl font-semibold text-center mb-8">
-	  Bienvenido Al Sistema <span class="text-white font-bold">{username}</span>
-	</h1>
-  
-	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-	  <div class="bg-[#262626] rounded-xl p-6 shadow">
-		<h2 class="text-sm">Cultivos Infectados</h2>
-		<p class="text-3xl font-bold mt-2">245</p>
-		<p class="text-sm text-gray-300 mt-1">+5% desde la captura pasada</p>
-	  </div>
-  
-	  <div class="bg-[#262626] rounded-xl p-6 shadow">
-		<h2 class="text-sm">Temporizador de Captura</h2>
-		<p id="temporizador" class="text-3xl font-mono font-bold mt-2">00:00:00</p>
-		<p class="text-sm text-gray-300 mt-1">Restantes</p>
-	  </div>
-  
-	  <div class="bg-[#262626] rounded-xl p-6 shadow">
-		<h2 class="text-sm ">Almacenamiento Utilizado</h2>
-		<p class="text-3xl font-bold mt-2">85%</p>
-		<div class="w-full h-2 bg-gray-700 rounded-full mt-3">
-		  <div class="h-full bg-blue-500 rounded-full" style="width: 85%"></div>
-		</div>
-	  </div>
-	</div>
+  <h1 class="text-3xl font-semibold text-center mb-8">
+    Bienvenido Al Sistema <span class="text-white font-bold">{username}</span>
+  </h1>
 
-	<div class="bg-[#262626] rounded-xl p-6 shadow">
-	  <h2 class="text-xl font-semibold mb-4">Actividad Reciente</h2>
-	  <ul class="space-y-3 text-sm">
-		<li class="flex justify-between items-center">
-		  <div class="flex items-center gap-2">
-			<span><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_7_319)">
-                <path d="M3.5 10.5C3.5 9.88115 3.74583 9.28766 4.18342 8.85007C4.621 8.41249 5.21449 8.16666 5.83333 8.16666H22.1667C22.7855 8.16666 23.379 8.41249 23.8166 8.85007C24.2542 9.28766 24.5 9.88115 24.5 10.5V21C24.5 21.6188 24.2542 22.2123 23.8166 22.6499C23.379 23.0875 22.7855 23.3333 22.1667 23.3333H5.83333C5.21449 23.3333 4.621 23.0875 4.18342 22.6499C3.74583 22.2123 3.5 21.6188 3.5 21V10.5Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9.33337 8.16667V5.83333C9.33337 5.21449 9.57921 4.621 10.0168 4.18342C10.4544 3.74583 11.0479 3.5 11.6667 3.5H16.3334C16.9522 3.5 17.5457 3.74583 17.9833 4.18342C18.4209 4.621 18.6667 5.21449 18.6667 5.83333V8.16667" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14 14V14.0117" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M3.5 15.1667C6.75684 16.8078 10.353 17.6627 14 17.6627C17.647 17.6627 21.2432 16.8078 24.5 15.1667" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-[#262626] rounded-xl p-6 shadow">
+      <h2 class="text-sm">Cultivos Infectados</h2>
+      <p class="text-3xl font-bold mt-2">245</p>
+      <p class="text-sm text-gray-300 mt-1">+5% desde la captura pasada</p>
+    </div>
+
+    <div class="bg-[#262626] rounded-xl p-6 shadow">
+      <h2 class="text-sm">Temporizador de Captura</h2>
+      <p id="temporizador" class="text-3xl font-mono font-bold mt-2">
+        00:00:00
+      </p>
+      <p class="text-sm text-gray-300 mt-1">Restantes</p>
+    </div>
+
+    <div class="bg-[#262626] rounded-xl p-6 shadow">
+      <h2 class="text-sm">Almacenamiento Utilizado</h2>
+      <p class="text-3xl font-bold mt-2">85%</p>
+      <div class="w-full h-2 bg-gray-700 rounded-full mt-3">
+        <div class="h-full bg-blue-500 rounded-full" style="width: 85%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-[#262626] rounded-xl p-6 shadow">
+    <h2 class="text-xl font-semibold mb-4">Actividad Reciente</h2>
+    <ul class="space-y-3 text-sm">
+      <li class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span
+            ><svg
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_7_319)">
+                <path
+                  d="M3.5 10.5C3.5 9.88115 3.74583 9.28766 4.18342 8.85007C4.621 8.41249 5.21449 8.16666 5.83333 8.16666H22.1667C22.7855 8.16666 23.379 8.41249 23.8166 8.85007C24.2542 9.28766 24.5 9.88115 24.5 10.5V21C24.5 21.6188 24.2542 22.2123 23.8166 22.6499C23.379 23.0875 22.7855 23.3333 22.1667 23.3333H5.83333C5.21449 23.3333 4.621 23.0875 4.18342 22.6499C3.74583 22.2123 3.5 21.6188 3.5 21V10.5Z"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M9.33337 8.16667V5.83333C9.33337 5.21449 9.57921 4.621 10.0168 4.18342C10.4544 3.74583 11.0479 3.5 11.6667 3.5H16.3334C16.9522 3.5 17.5457 3.74583 17.9833 4.18342C18.4209 4.621 18.6667 5.21449 18.6667 5.83333V8.16667"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M14 14V14.0117"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M3.5 15.1667C6.75684 16.8078 10.353 17.6627 14 17.6627C17.647 17.6627 21.2432 16.8078 24.5 15.1667"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </g>
+              <defs>
                 <clipPath id="clip0_7_319">
-                <rect width="28" height="28" fill="white"/>
+                  <rect width="28" height="28" fill="white"></rect>
                 </clipPath>
-                </defs>
-                </svg>
-                </span>
-			<span class="text-gray-300">Generación de Reporte de la Zona #32</span>
-		  </div>
-		  <span class="text-gray-500">Hace 27 min</span>
-		</li>
-		<li class="flex justify-between items-center">
-		  <div class="flex items-center gap-2">
-			<span><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_7_303)">
-                <path d="M6.66667 9.33331H8C8.70724 9.33331 9.38552 9.05236 9.88562 8.55226C10.3857 8.05217 10.6667 7.37389 10.6667 6.66665C10.6667 6.31302 10.8071 5.97389 11.0572 5.72384C11.3072 5.47379 11.6464 5.33331 12 5.33331H20C20.3536 5.33331 20.6928 5.47379 20.9428 5.72384C21.1929 5.97389 21.3333 6.31302 21.3333 6.66665C21.3333 7.37389 21.6143 8.05217 22.1144 8.55226C22.6145 9.05236 23.2928 9.33331 24 9.33331H25.3333C26.0406 9.33331 26.7189 9.61426 27.219 10.1144C27.719 10.6145 28 11.2927 28 12V24C28 24.7072 27.719 25.3855 27.219 25.8856C26.7189 26.3857 26.0406 26.6666 25.3333 26.6666H6.66667C5.95942 26.6666 5.28115 26.3857 4.78105 25.8856C4.28095 25.3855 4 24.7072 4 24V12C4 11.2927 4.28095 10.6145 4.78105 10.1144C5.28115 9.61426 5.95942 9.33331 6.66667 9.33331Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 17.3333C12 18.3942 12.4214 19.4116 13.1716 20.1617C13.9217 20.9119 14.9391 21.3333 16 21.3333C17.0609 21.3333 18.0783 20.9119 18.8284 20.1617C19.5786 19.4116 20 18.3942 20 17.3333C20 16.2724 19.5786 15.255 18.8284 14.5049C18.0783 13.7547 17.0609 13.3333 16 13.3333C14.9391 13.3333 13.9217 13.7547 13.1716 14.5049C12.4214 15.255 12 16.2724 12 17.3333Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
+              </defs>
+            </svg>
+          </span>
+          <span class="text-gray-300">Generación de Reporte de la Zona #32</span
+          >
+        </div>
+        <span class="text-gray-500">Hace 27 min</span>
+      </li>
+      <li class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span
+            ><svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_7_303)">
+                <path
+                  d="M6.66667 9.33331H8C8.70724 9.33331 9.38552 9.05236 9.88562 8.55226C10.3857 8.05217 10.6667 7.37389 10.6667 6.66665C10.6667 6.31302 10.8071 5.97389 11.0572 5.72384C11.3072 5.47379 11.6464 5.33331 12 5.33331H20C20.3536 5.33331 20.6928 5.47379 20.9428 5.72384C21.1929 5.97389 21.3333 6.31302 21.3333 6.66665C21.3333 7.37389 21.6143 8.05217 22.1144 8.55226C22.6145 9.05236 23.2928 9.33331 24 9.33331H25.3333C26.0406 9.33331 26.7189 9.61426 27.219 10.1144C27.719 10.6145 28 11.2927 28 12V24C28 24.7072 27.719 25.3855 27.219 25.8856C26.7189 26.3857 26.0406 26.6666 25.3333 26.6666H6.66667C5.95942 26.6666 5.28115 26.3857 4.78105 25.8856C4.28095 25.3855 4 24.7072 4 24V12C4 11.2927 4.28095 10.6145 4.78105 10.1144C5.28115 9.61426 5.95942 9.33331 6.66667 9.33331Z"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M12 17.3333C12 18.3942 12.4214 19.4116 13.1716 20.1617C13.9217 20.9119 14.9391 21.3333 16 21.3333C17.0609 21.3333 18.0783 20.9119 18.8284 20.1617C19.5786 19.4116 20 18.3942 20 17.3333C20 16.2724 19.5786 15.255 18.8284 14.5049C18.0783 13.7547 17.0609 13.3333 16 13.3333C14.9391 13.3333 13.9217 13.7547 13.1716 14.5049C12.4214 15.255 12 16.2724 12 17.3333Z"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </g>
+              <defs>
                 <clipPath id="clip0_7_303">
-                <rect width="32" height="32" fill="white"/>
+                  <rect width="32" height="32" fill="white"></rect>
                 </clipPath>
-                </defs>
-                </svg>
-                </span>
-			<span class="text-gray-300">Captura de Imágenes en la Zona #32</span>
-		  </div>
-		  <span class="text-gray-500">Hace 28 min</span>
-		</li>
-		<li class="flex justify-between items-center">
-		  <div class="flex items-center gap-2">
-			<span><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_7_325)">
-                <path d="M6.66663 16L13.3333 22.6666L26.6666 9.33331" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
+              </defs>
+            </svg>
+          </span>
+          <span class="text-gray-300">Captura de Imágenes en la Zona #32</span>
+        </div>
+        <span class="text-gray-500">Hace 28 min</span>
+      </li>
+      <li class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span
+            ><svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_7_325)">
+                <path
+                  d="M6.66663 16L13.3333 22.6666L26.6666 9.33331"
+                  stroke="white"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </g>
+              <defs>
                 <clipPath id="clip0_7_325">
-                <rect width="32" height="32" fill="white"/>
+                  <rect width="32" height="32" fill="white"></rect>
                 </clipPath>
-                </defs>
-                </svg>
-                </span>
-			<span class="text-gray-300">Reporte de la Zona #28 Atendido</span>
-		  </div>
-		  <span class="text-gray-500">Hace 1 hora</span>
-		</li>
-	  </ul>
-	</div>
-  </MainLayout>
-  <script lang="js">
-        async function startSyncedCountdown(display) {
-        // ① Pide la hora exacta del servidor
-        const t0Client = Date.now();
-        const { now: t0Server } = await fetch('/api/servertime')
-                                            .then(r => r.json());
-        const drift = t0Client - t0Server;   // ms que adelanta el reloj local
+              </defs>
+            </svg>
+          </span>
+          <span class="text-gray-300">Reporte de la Zona #28 Atendido</span>
+        </div>
+        <span class="text-gray-500">Hace 1 hora</span>
+      </li>
+    </ul>
+  </div>
+</MainLayout>
+<script lang="js">
+  async function startSyncedCountdown(display) {
+    // ① Pide la hora exacta del servidor
+    const t0Client = Date.now();
+    const { now: t0Server } = await fetch("/api/servertime").then((r) =>
+      r.json(),
+    );
+    const drift = t0Client - t0Server; // ms que adelanta el reloj local
 
-        // ② Calcula el próximo “top-of-hour” (minuto 0)
-        const nextTick = Math.ceil(t0Server / 3.6e6) * 3.6e6; // 3.6e6 = 60 min
+    // ② Calcula el próximo “top-of-hour” (minuto 0)
+    const nextTick = Math.ceil(t0Server / 3.6e6) * 3.6e6; // 3.6e6 = 60 min
 
-        function update() {
-            // hora real = reloj local - drift
-            const diff   = nextTick - (Date.now() - drift);  // ms hasta el siguiente tick
-            const secs   = Math.max(0, Math.floor(diff / 1000));
+    function update() {
+      // hora real = reloj local - drift
+      const diff = nextTick - (Date.now() - drift); // ms hasta el siguiente tick
+      const secs = Math.max(0, Math.floor(diff / 1000));
 
-            const hh = String(Math.floor(secs / 3600)).padStart(2, '0');
-            const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
-            const ss = String(secs % 60).padStart(2, '0');
-            display.textContent = `${hh}:${mm}:${ss}`;
+      const hh = String(Math.floor(secs / 3600)).padStart(2, "0");
+      const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
+      const ss = String(secs % 60).padStart(2, "0");
+      display.textContent = `${hh}:${mm}:${ss}`;
 
-            if (secs === 0) {
-            // ③ Llegó a cero → tu acción y reinicio
-            doSomething();                   // <-- tu función
-            while (nextTick <= (Date.now() - drift)) nextTick += 3.6e6;
-            }
-        }
+      if (secs === 0) {
+        // ③ Llegó a cero → tu acción y reinicio
+        doSomething(); // <-- tu función
+        while (nextTick <= Date.now() - drift) nextTick += 3.6e6;
+      }
+    }
 
-        update();
-        setInterval(update, 1000);
-        }
+    update();
+    setInterval(update, 1000);
+  }
 
-        function doSomething() {
-        console.log('¡Hora completada! Ejecutando acción…');
-        // Por ejemplo:
-        // fetch('/api/genera-reporte', { method: 'POST' });
-        }
+  function doSomething() {
+    console.log("¡Hora completada! Ejecutando acción…");
+    // Por ejemplo:
+    // fetch('/api/genera-reporte', { method: 'POST' });
+  }
 
-        document.addEventListener('DOMContentLoaded', () => {
-        const display = document.querySelector('#temporizador');
-        if (display) startSyncedCountdown(display);
-        });
-
-    </script>
-  <script type="module" src="/src/scripts/timer.js"></script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const display = document.querySelector("#temporizador");
+    if (display) startSyncedCountdown(display);
+  });
+</script>
+<script type="module" src="/src/scripts/timer.js"></script>
