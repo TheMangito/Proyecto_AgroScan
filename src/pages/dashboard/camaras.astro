@@ -13,7 +13,7 @@ import "@/styles/global.css";
             <p id="temporizador" class="text-xl font-mono font-bold min-w-[30%] md:text-3xl">00:00:00</p>
             <p class="text-xs text-gray-300 min-w-[30%] md:text-sm">Restantes</p>
         </div>
-        <label class="text-[#f0f1f1] md:text-base text-sm">Monitorea las camaras de las zonas de cultivo</label>
+        <p class="text-[#f0f1f1] md:text-base text-sm">Monitorea las camaras de las zonas de cultivo</p>
     </div><br>
     <div class="grid md:grid-cols-3 sm:grid-cols-2 justify-between">
         <div class="bg-[#272726] p-4 m-4 w-1/6 sm:w-3/5">
@@ -27,7 +27,7 @@ import "@/styles/global.css";
         </div>
         <div class="bg-[#272726] p-4 m-4 w-1/6 sm:w-3/5">
             <p class="text-[#f0f1f1] flex flex-row"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal p-0.5"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 6l8 0" /><path d="M16 6l4 0" /><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 12l2 0" /><path d="M10 12l10 0" /><path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 18l11 0" /><path d="M19 18l1 0" /></svg> Estado:    
-                <select id="opciones" class="bg-[#272726]" name="">
+                <select id="opciones1" class="bg-[#272726]" name="">
                 <option value="1">Todas</option>
                 <option value="1">Alerta temprana</option>
                 <option value="2">Infección crítica</option>
@@ -118,8 +118,6 @@ import "@/styles/global.css";
             const video = document.getElementById("camera1");
             // 2) Verificar que el video esté listo
             if (video.readyState < 2) {
-                //statusEl.style.color = "red";
-                //statusEl.textContent = "El video aún no está listo.";
                 return;
             }
 
@@ -132,10 +130,6 @@ import "@/styles/global.css";
             // 4) Convertir el canvas a Base64 (PNG)
             const dataURL = canvas.toDataURL("image/png");
             const base64Data = dataURL.split(",")[1]; // quitamos “data:image/png;base64,”
-            
-            // 5) Enviar al endpoint /api/save-image
-            //statusEl.style.color = "white";
-            //statusEl.textContent = "Enviando imagen a SQLite…";
 
             try {
                 const respuesta = await fetch("/api/save-image", {

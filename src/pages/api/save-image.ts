@@ -15,9 +15,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     const insert = await db.insert(Capturas).values({
       id_camara: 1,
-      fecha_hora: new Date(),
+      procesada: 0,
+      fecha_hora: new Date().toString(),
       imagen: base64,
-      procesada: false
     });
 
     return new Response(
