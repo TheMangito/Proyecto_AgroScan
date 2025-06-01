@@ -52,6 +52,8 @@ import "@/styles/global.css";
                 playsinline
                 muted
             ></video>
+            <canvas id="miCanvas" style="display: none;"></canvas>
+
             <button id="screenshot-vid-recording" class="bg-[#272726] text-[#f0f1f1] rounded-lg p-2 mt-2 w-full hover:bg-[#3a3a3a]">
                 Capturar
             </button>
@@ -96,105 +98,178 @@ import "@/styles/global.css";
         </div>
     </div>
     <script type="module">
-        (async () => {
-            const video = document.getElementById('camera1');
-            if (!navigator.mediaDevices?.getUserMedia) {
-                console.warn('getUserMedia no soportado en este navegador');
-                return;
+      // ——————————————————————————————————————————————————————————————
+      // 1) REFERENCIAS A ELEMENTOS
+      // ——————————————————————————————————————————————————————————————
+      const video = document.getElementById("camera1");
+      const canvas = document.getElementById("miCanvas");
+      const screenshotButton = document.getElementById("screenshot-vid-recording");
+      const temporizadorDisplay = document.querySelector("#temporizador");
+
+      // ——————————————————————————————————————————————————————————————
+      // 2) CAPTURA + ENVÍO AL BACKEND (FastAPI en http://localhost:8000/predict)
+      // ——————————————————————————————————————————————————————————————
+      async function captureAndSend() {
+        console.log(new Date(), "→ Iniciando captureAndSend()");
+
+        // 1) Verificar que el video esté listo
+        if (!video || video.readyState < 2) {
+          console.warn("El video aún no está listo para capturar.");
+          return;
+        }
+
+        // 2) Ajustar dimensiones del canvas al video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // 3) Obtener Blob en formato JPEG (podría ser "image/png" si lo deseas)
+        canvas.toBlob(
+          async (blob) => {
+            if (!blob) {
+              console.error("No se pudo obtener blob del canvas.");
+              return;
             }
+
+            // OPCIONAL: mostrar la imagen capturada en pantalla (por 5 segundos)
+            {
+              const url = URL.createObjectURL(blob);
+              const img = new Image();
+              img.src = url;
+              // Ajusta dónde pegas la imagen; aquí la anexamos al body al final
+              document.body.appendChild(img);
+              setTimeout(() => {
+                URL.revokeObjectURL(url);
+                img.remove();
+              }, 5000);
+            }
+
+            // 4) Preparar FormData para enviar al servidor
+            const formData = new FormData();
+            // El campo "file" debe coincidir con el parámetro UploadFile de FastAPI
+            formData.append("file", blob, "capture.jpg");
+
+            // 5) Hacer fetch al endpoint /predict
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = stream;
-            } catch (err) {
-                console.error('Error al acceder a la cámara:', err);
-            }
-        })();
-        var screenshotButton = document.getElementById("screenshot-vid-recording");
-        screenshotButton.addEventListener("click", onCapture);
-
-        var canvas = document.createElement("canvas")
-        async function onCapture() {
-
-            const video = document.getElementById("camera1");
-            // 2) Verificar que el video esté listo
-            if (video.readyState < 2) {
-                return;
-            }
-
-            // 3) Dibujar el frame actual en el canvas
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // 4) Convertir el canvas a Base64 (PNG)
-            const dataURL = canvas.toDataURL("image/png");
-            const base64Data = dataURL.split(",")[1]; // quitamos “data:image/png;base64,”
-
-            try {
-                const respuesta = await fetch("/api/save-image", {
+              const response = await fetch("http://localhost:8000/predict", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ base64: base64Data }),
+                body: formData,
               });
 
-              const json = await respuesta.json();
-              if (!respuesta.ok || !json.success) {
-                throw new Error(json.message || "Error desconocido");
-                }
-                console.log("Imagen guardada con ID:", json.id);
-                //statusEl.style.color = "limegreen";
-                //statusEl.textContent = `Imagen guardada con ID: ${json.id}`;
-            } catch (err) {
-                console.error("Error enviando al servidor:", err);
-                //statusEl.style.color = "red";
-                //statusEl.textContent = `Error: ${err.message}`;
-            };
-        }
-    </script>
-    <script lang="js">
-        async function startSyncedCountdown(display) {
-        // ① Pide la hora exacta del servidor
-        const t0Client = Date.now();
-        const { now: t0Server } = await fetch('/api/servertime')
-                                            .then(r => r.json());
-        const drift = t0Client - t0Server;   // ms que adelanta el reloj local
+              if (!response.ok) {
+                // Si no es 2xx, extraer detalle de error (JSON con { detail: "..." })
+                let detalle = "Error desconocido en el backend";
+                try {
+                  const errJson = await response.json();
+                  detalle = errJson.detail || detalle;
+                } catch (_){}
+                throw new Error(detalle);
+              }
 
-        // ② Calcula el próximo “top-of-hour” (minuto 0)
-        const nextTick = Math.ceil(t0Server / 3.6e6) * 3.6e6; // 3.6e6 = 60 min
+              // 6) Procesar la respuesta JSON
+              const data = await response.json();
+              // Supongamos que data.result es algo como "Necesita Atencion" / "Saludable"
+              alert(`🔔 Resultado del modelo: ${data.result}`);
+            } catch (err) {
+              console.error("Error en fetch /predict:", err);
+              alert(`❌ Ocurrió un error al enviar la imagen: ${err.message}`);
+            }
+          },
+          "image/jpeg",
+          0.9 // Calidad JPEG, puedes cambiar o usar "image/png"
+        );
+      }
+
+      // ——————————————————————————————————————————————————————————————
+      // 3) FUNCIÓN doSomething PARA EL TEMPORIZADOR
+      // ——————————————————————————————————————————————————————————————
+      function doSomething() {
+        console.log("¡Temporizador llegó a 0! Ejecutando captureAndSend()…");
+        captureAndSend();
+      }
+
+      // ——————————————————————————————————————————————————————————————
+      // 4) START SYNCED COUNTDOWN (Mantener tu lógica, pero llamar a doSomething)
+      // ——————————————————————————————————————————————————————————————
+      async function startSyncedCountdown(display) {
+        // ① Pedir la hora del servidor
+        const t0Client = Date.now();
+        const { now: t0Server } = await fetch("/api/servertime").then((r) =>
+          r.json()
+        );
+        const drift = t0Client - t0Server; // ms que adelanta el reloj local
+
+        // ② Calcular el próximo “top-of-hour” (minuto 0)
+        let nextTick = Math.ceil(t0Server / 3.6e6) * 3.6e6; // 3.6e6 = 60 minutos en milis
 
         function update() {
-            // hora real = reloj local - drift
-            const diff   = nextTick - (Date.now() - drift);  // ms hasta el siguiente tick
-            const secs   = Math.max(0, Math.floor(diff / 1000));
+          const actualServerTime = Date.now() - drift;
+          const diff = nextTick - actualServerTime; // ms hasta el siguiente tick
+          const secs = Math.max(0, Math.floor(diff / 1000));
 
-            const hh = String(Math.floor(secs / 3600)).padStart(2, '0');
-            const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
-            const ss = String(secs % 60).padStart(2, '0');
-            display.textContent = `${hh}:${mm}:${ss}`;
+          const hh = String(Math.floor(secs / 3600)).padStart(2, "0");
+          const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
+          const ss = String(secs % 60).padStart(2, "0");
+          display.textContent = `${hh}:${mm}:${ss}`;
 
-            if (secs === 0) {
-            // ③ Llegó a cero → tu acción y reinicio
-            doSomething();                   // <-- tu función
-            while (nextTick <= (Date.now() - drift)) nextTick += 3.6e6;
+          if (secs === 0) {
+            // Cuando llega a cero → ejecuta doSomething() y recalcula nextTick
+            doSomething();
+
+            // Avanzar nextTick a la siguiente hora (para que no se quede atascado)
+            while (nextTick <= actualServerTime) {
+              nextTick += 3.6e6;
             }
+          }
         }
 
+        // Hacer la primera actualización inmediatamente, luego cada segundo
         update();
         setInterval(update, 1000);
-        }
+      }
 
-        function doSomething() {
-        console.log('¡Hora completada! Ejecutando acción…');
-        // Por ejemplo:
-        // fetch('/api/genera-reporte', { method: 'POST' });
-        }
+      // ——————————————————————————————————————————————————————————————
+      // 5) CONFIGURAR TODO AL CARGAR DOM
+      // ——————————————————————————————————————————————————————————————
+      document.addEventListener("DOMContentLoaded", () => {
+        // 5.1) Arrancar getUserMedia en el <video id="camera1">
+        (async () => {
+          if (!navigator.mediaDevices?.getUserMedia) {
+            console.warn("getUserMedia no es soportado en este navegador");
+            return;
+          }
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+            });
+            video.srcObject = stream;
+          } catch (err) {
+            console.error("Error al acceder a la cámara:", err);
+          }
+        })();
 
-        document.addEventListener('DOMContentLoaded', () => {
-        const display = document.querySelector('#temporizador');
-        if (display) startSyncedCountdown(display);
+        // 5.2) Al botón “Capturar” le asignamos nuestra nueva función captureAndSend
+        screenshotButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          captureAndSend();
         });
 
+        // 5.3) Listener global para la tecla “C” o “c”
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "c" || e.key === "C") {
+            console.log("Tecla C presionada → captureAndSend()");
+            captureAndSend();
+          }
+        });
+
+        // 5.4) Iniciar temporizador si existe el elemento #temporizador
+        if (temporizadorDisplay) {
+          startSyncedCountdown(temporizadorDisplay);
+        }
+      });
     </script>
+    <!-- ------------------- FIN BLOQUE DE SCRIPT ------------------- -->
+    
 </section>
 
